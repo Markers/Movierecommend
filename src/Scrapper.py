@@ -1,4 +1,4 @@
-from re import I
+# -*- coding: utf-8 -*-
 import requests
 import sys
 from bs4 import BeautifulSoup

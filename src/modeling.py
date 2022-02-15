@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pickle
 import os
 import numpy as np
@@ -38,45 +39,44 @@ def matrix(data):
     return result
 
 
-data = load_data()
-df = pd.DataFrame(data)
-result = matrix(df.genre)
-# print(result)
+def test():
 
+    data = load_data()
+    df = pd.DataFrame(data)
+    result = matrix(df.genre)
+    # print(result)
 
-score = np.zeros((100, 26))  # 100 x 26  0으로 채움
-# print(score.shape)
+    score = np.zeros((100, 26))  # 100 x 26  0으로 채움
+    # print(score.shape)
 
+    for i, v in enumerate(result):
+        for w in v:
+            score[i, w] = 1.0
 
-for i, v in enumerate(result):
-    for w in v:
-        score[i, w] = 1.0
+    # print(score)
 
-# print(score)
+    cosine_similar = cosine_similarity(score, score)
 
+    # 자기 자신에 대한 유사도 제외
+    for i in range(100):
+        cosine_similar[i, i] = 1.0
 
-cosine_similar = cosine_similarity(score, score)
+    cosine_similar_data = pd.DataFrame(cosine_similar)
+    # print(cosine_similar_data.head(10))
 
-# 자기 자신에 대한 유사도 제외
-for i in range(100):
-    cosine_similar[i, i] = 1.0
+    sim_scores = list(enumerate(cosine_similar_data[0]))
 
-cosine_similar_data = pd.DataFrame(cosine_similar)
-# print(cosine_similar_data.head(10))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-sim_scores = list(enumerate(cosine_similar_data[0]))
+    print(sim_scores[1:10])
 
-sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    movie_indices = [i[0] for i in sim_scores]
 
-print(sim_scores[1:10])
+    choice = []
+    for i in range(10):
+        choice.append(df['title'][movie_indices[i]])
+        # 가장 유사한 10개의 영화의 제목을 리턴합니다.
 
-movie_indices = [i[0] for i in sim_scores]
-
-choice = []
-for i in range(10):
-    choice.append(df['title'][movie_indices[i]])
-    # 가장 유사한 10개의 영화의 제목을 리턴합니다.
-
-print('***영화 추천 순위***')
-for i in range(10):
-    print(str(i+1) + '순위 : ' + choice[i])
+    print('***영화 추천 순위***')
+    for i in range(10):
+        print(str(i+1) + '순위 : ' + choice[i])

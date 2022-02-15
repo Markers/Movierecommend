@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import Scrapper
 import pickle
 import os
@@ -41,4 +42,5 @@ def download():
         pickle.dump(move_info, f)
 
 
-download()
+if __nam__ == "__main__":
+    download()
