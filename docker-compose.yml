@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mysql:
+    image: library/mysql:5.7
+    container_name: docker_mysql 
+    restart: always
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1004 
+    volumes:
+      - /Users/Markers/Documents/GitHub/Section3/Week4/Movierecommend/db:/var/lib/mysql
+    platform: linux/amd64

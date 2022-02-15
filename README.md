@@ -9,7 +9,13 @@ Movie Recommend using ML
 
 2. 데이터 저장  
    -  로컬 DB 저장.
-   -  모델링 진행
+   -  모델링 진행   
+
+   
+   docker 이용(M1 mac)
+   ```
+   docker run --rm --platform linux/amd64 -it mysql:5.7
+   ```
 
 3. API 서비스 개발
 

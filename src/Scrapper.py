@@ -157,7 +157,8 @@ def get_movie_info(code, title):
         "running_time": running_time,
         "director": director,
         "actors": actors,
-        "count": count
+        "count": count,
+        "code": code
     }
 
 
