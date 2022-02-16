@@ -49,7 +49,11 @@ def replace_data(data):
     return data.replace(" ", "").replace("\n", "").replace("\t", "").replace("\r", "").split(",")
 
 
-def get_movie_info(code, title):
+def replace_title(data):
+    return data.replace("\n", "").replace("\t", "").replace("\r", "")
+
+
+def get_movie_info(code, title=None):
     movie_info_url = f"https://movie.naver.com/movie/bi/mi/basic.naver?code={code}"
 
     response = requests.get(movie_info_url)
@@ -59,8 +63,9 @@ def get_movie_info(code, title):
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         mv_info = soup.find(class_="mv_info")
-
-        # title = mv_info.find(class_="h_movie").text
+        if title == None:
+            title = mv_info.find(class_="h_movie").text
+            title = replace_title(title)
         # print(title)
 
         # score = mv_info.find_all(class_="score")
@@ -162,21 +167,38 @@ def get_movie_info(code, title):
     }
 
 
-if __name__ == "__main__":
-    argument = sys.argv
-    if len(argument) != 2:
-        print(f"연도를 입력해주세요.:")
-    else:
-        del argument[0]  # 파일이름 지운다.
-        print(f"입력한 연도는 {argument[0]} 입니다")
-        code_list = get_movie_code(argument[0])
+def get_poster(code):
+    #  #content > div.article > div.mv_info_area > div.poster > a > img
+    movie_info_url = f"https://movie.naver.com/movie/bi/mi/basic.naver?code={code}"
 
-        for movie in code_list:
-            for key, item in movie.items():
-                # print(key, item)
-                print(get_movie_info(key, item))
-            # print(movie.items())
-            # print(movie)
-        # print(code_list)
-        # print(get_movie_info(57095))
-        # print(get_movie_info(208655))
+    response = requests.get(movie_info_url)
+    # time.sleep(1)
+    poster = None
+    if response.status_code == 200:
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+
+        poster = soup.select_one(".poster img")['src']
+
+    return poster
+
+
+if __name__ == "__main__":
+    print(get_poster(187979))
+    # argument = sys.argv
+    # if len(argument) != 2:
+    #     print(f"연도를 입력해주세요.:")
+    # else:
+    #     del argument[0]  # 파일이름 지운다.
+    #     print(f"입력한 연도는 {argument[0]} 입니다")
+    #     code_list = get_movie_code(argument[0])
+
+    #     for movie in code_list:
+    #         for key, item in movie.items():
+    #             # print(key, item)
+    #             print(get_movie_info(key, item))
+    #         # print(movie.items())
+    # print(movie)
+    # print(code_list)
+    # print(get_movie_info(57095))
+    # print(get_movie_info(208655))

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pickle
 import os
-from re import I
 import numpy as np
 import pandas as pd
 
@@ -19,13 +18,18 @@ gerne_number = [x for x in range(0, 26)]
 gerne_id = dict(zip(GERNE, gerne_number))
 
 
-def load_data():
-    with open(DATA_PATH+'/movie_info.pkl', 'rb') as f:
+def load_data(filename):
+    with open(DATA_PATH+'/'+filename, 'rb') as f:
         data = pickle.load(f)
 
+    if filename == "movie_info.pkl":
+        return list(data.values())
+
+    else:
+        return data
     # print(data)
 
-    return list(data.values())
+    # return list(data.values())
 
 
 def matrix(data):
@@ -55,7 +59,7 @@ def save_matrix(data, code_list):
 
 def recommend(code):
 
-    data = load_data()
+    data = load_data("movie_info.pkl")
     df = pd.DataFrame(data)
     result = matrix(df.genre)
     # print(result)
@@ -73,7 +77,7 @@ def recommend(code):
 
     # 자기 자신에 대한 유사도 제외
     for i in range(len(df)):
-        cosine_similar[i, i] = 1.0
+        cosine_similar[i, i] = 10.0
 
     cosine_similar_data = pd.DataFrame(cosine_similar)
     # print(cosine_similar_data.head(10))
@@ -91,20 +95,24 @@ def recommend(code):
 
     # print(sim_scores[1:10])
 
-    movie_indices = [i[0] for i in sim_scores]
+    movie_indices = [i[0] for i in sim_scores[1:]]
 
     choice = []
     for i in range(10):
-        choice.append(df['title'][movie_indices[i]])
+        # choice.append(df['title'][movie_indices[i]])
+        choice.append(df.loc[movie_indices[i]])
         # 가장 유사한 10개의 영화의 제목을 리턴합니다.
 
     # print('***영화 추천 순위***')
     # for i in range(10):
         # print(str(i+1) + '순위 : ' + choice[i])
 
+    # print(choice)
+    return choice
+
 
 # recommend(189051)
-recommend(187979)
+# recommend(187979)
 # 189051
 # 0번 index 177371
 # 187979

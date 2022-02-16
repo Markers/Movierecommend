@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # DB 초기화 및 저장
 import pymysql
-import modeling
+from . import modeling
 
 HOST = "127.0.0.1"
 USER = "user"
@@ -106,10 +106,13 @@ if __name__ == "__main__":
     conn, cursor = connect()
     create_db(conn, cursor)
 
-    data = modeling.load_data()
+    data = modeling.load_data("movie_info.pkl")
+
+    matrix = modeling.load_data("matrix_data.pkl")
+    print(matrix)
     create_table(conn, cursor)
     insert_data(conn, cursor, data)
-    print(read_data(conn, cursor))
+    # print(read_data(conn, cursor))
 
     conn.commit()
     conn.close()

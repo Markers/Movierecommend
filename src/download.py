@@ -42,5 +42,5 @@ def download():
         pickle.dump(move_info, f)
 
 
-if __nam__ == "__main__":
+if __name__ == "__main__":
     download()
