@@ -22,6 +22,13 @@ def index():
     return render_template('index.html', data=random_movie_list)
 
 
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    post_value = request.form['predict']
+    result = modeling.recommend(post_value)
+    return str(result), 200
+
+
 @app.route('/recommend', methods=['POST'])
 def recommend():
     post_value = request.form['predict']
