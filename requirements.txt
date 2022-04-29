@@ -1,4 +1,4 @@
-autopep8 @ file:///opt/conda/conda-bld/autopep8_1639166893812/work
+autopep8  
 beautifulsoup4==4.10.0
 bs4==0.0.1
 certifi==2021.10.8
@@ -12,7 +12,7 @@ joblib==1.1.0
 MarkupSafe==2.0.1
 numpy==1.22.2
 pandas==1.4.1
-pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1636635402688/work
+pycodestyle 
 PyMySQL==1.0.2
 python-dateutil==2.8.2
 pytz==2021.3
@@ -23,6 +23,6 @@ six==1.16.0
 sklearn==0.0
 soupsieve==2.3.1
 threadpoolctl==3.1.0
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+toml 
 urllib3==1.26.8
 Werkzeug==2.0.3
